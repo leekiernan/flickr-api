@@ -1,0 +1,8 @@
+.Feed {
+	display:flex;
+	flex-wrap:wrap;
+
+	max-width:75rem;
+	margin:auto;
+
+}
