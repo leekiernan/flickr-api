@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Photo.css'
 
 // {
@@ -13,35 +13,40 @@ import './Photo.css'
 // 			"tags": "usa uscities philadelphia pa streets alleys travel destinations trees buildings urban sidewalks clean safe colorful"
 // },
 
-const flicrAuthorIsNotAnAuthor = (s) => {
-  // return s
-  let re = new RegExp(/\("(.*?)"\)/)
-  return s.match(re) ? s.match(re)[1] : s
-}
-const flickrDescriptionIsNotADescription = (strHTML) => {
-	var doc = new DOMParser().parseFromString(strHTML, 'text/html')
-	return doc.body.lastChild.textContent || ""
-}
-
 // style={{ background: `url("${item.media.m}") 200%, rgba(255,255,255,0.5)` }}
 
-const Photo = ({ item }) => {
-	let tags = item.tags.split(' ').map( (t,ix) => <li key={ix}><a target="_blank "href={`https://www.flickr.com/photos/tags/${t}`}>{t}</a></li>)
-	return (
-		<div className="Photo">
-			<div className="box">
-				<figure>
-          <picture>
-            {/* <source /> */}
-            <img src={item.media.m} alt="" />
-          </picture>
-					<figcaption><a target="_blank "href={item.link}>{item.title}</a> by <a target="_blank "href={`https://www.flickr.com/photos/${item.author_id}`}>{flicrAuthorIsNotAnAuthor(item.author)}</a></figcaption>
-				</figure>
-				<div className="description">{flickrDescriptionIsNotADescription(item.description)}</div>
-				<footer><ul>{tags}</ul></footer>
-			</div>
-		</div>
-	)
+
+class Photo extends Component {
+  flickrAuthorIsNotAnAuthor() {
+    const author = this.props.item.author
+    let re = new RegExp(/\("(.*?)"\)/)
+    return author.match(re) ? author.match(re)[1] : author
+  }
+
+  flickrDescriptionIsNotADescription() {
+    var doc = new DOMParser().parseFromString(this.props.item.description, 'text/html')
+    return doc.body.lastChild.textContent || ""
+  }
+
+  render() {
+    const { item } = this.props
+    let tags = item.tags.split(' ').map( (t,ix) => <li key={ix}><a target="_blank "href={`https://www.flickr.com/photos/tags/${t}`}>{t}</a></li>)
+    return (
+      <div className="Photo">
+        <div className="box">
+          <figure>
+            <picture>
+              {/* <source /> */}
+              <img src={item.media.m} alt="" />
+            </picture>
+            <figcaption><a className="title" target="_blank "href={item.link}>{item.title}</a> by <a className="author" target="_blank "href={`https://www.flickr.com/photos/${item.author_id}`}>{this.flickrAuthorIsNotAnAuthor()}</a></figcaption>
+          </figure>
+          <div className="description">{this.flickrDescriptionIsNotADescription()}</div>
+          <footer><ul>{tags}</ul></footer>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default Photo

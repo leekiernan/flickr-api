@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Feed from './Feed'
+import { shallow } from 'enzyme'
 
 // import TestRenderer from 'react-test-renderer'
 
@@ -33,4 +34,10 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div)
 })
 
-it('', () => {})
+describe('Feed Component', () => {
+  it('displays a list of photos', () => {
+    const wrapper = shallow(<Feed feed={mockFeed} />)
+    expect(wrapper.find('Photo')).toHaveLength(2)
+  })
+
+})

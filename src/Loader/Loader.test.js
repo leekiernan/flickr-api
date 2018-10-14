@@ -10,5 +10,6 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div)
 })
 
-it('shows Loading element at boot', () => {})
-  // const component = renderer.create(<Loader />)
+describe('Loading Component', () => {
+  it.skip('shows Loading element at boot', () => {})
+})

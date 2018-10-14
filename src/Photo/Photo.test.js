@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Photo from './Photo'
+import { shallow, mount } from 'enzyme'
 
 // import TestRenderer from 'react-test-renderer'
 const mockPhoto = {
@@ -18,4 +19,30 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div)
 })
 
-it('', () => {})
+describe('Photo Component', () => {
+  it('should display the props passed', () => {
+    const wrapper = shallow(<Photo item={mockPhoto} />)
+    expect(wrapper.find('.title').text()).toEqual(mockPhoto.title)
+  })
+
+  it('handles flicrAuthorIsNotAnAuthor admirably', () => {
+    const wrapper = shallow(<Photo item={mockPhoto} />)
+    expect(wrapper.find('.author').text()).toEqual('MoPOPInteractive')
+  })
+
+  it.skip('handles flickrDescriptionIsNotADescription admirably', async () => {
+    const wrapper = shallow(<Photo item={mockPhoto} />)
+    // const instance = wrapper.instance()
+    expect(wrapper.find('.description').text()).toEqual('One of the many quaint streets around the center of the city. ~ Copyright © Gerardo Galindo Contact: Cyberlens@aol.com')
+  })
+
+  it('shows correct url for photo', () => {
+    const wrapper = shallow(<Photo item={mockPhoto} />)
+    expect(wrapper.find('.title[href="https://www.flickr.com/photos/empmuseum/43460854280/"]')).toBeTruthy()
+  })
+
+  it('shows correct url for author', () => {
+    const wrapper = shallow(<Photo item={mockPhoto} />)
+    expect(wrapper.find('.author[href="https://www.flickr.com/photos/64943649@N07/"]')).toBeTruthy()
+  })
+})
